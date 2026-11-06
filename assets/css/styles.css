@@ -731,15 +731,40 @@ html[lang="ar"] .program-card p { line-height: 1.8; }
   color: #e9f0fa;
   box-shadow: var(--shadow-lg);
 }
-@media (min-width: 900px) {
-  .contact-card { grid-template-columns: 1.35fr 1fr; }
+/* Photo column only on wide screens; smaller screens get the details sooner */
+@media (min-width: 1100px) {
+  .contact-card { grid-template-columns: 2.1fr 1fr; }
 }
 
-.contact-content { padding: clamp(28px, 5vw, 64px); }
-.contact-card h2 { color: var(--white); }
+.contact-content { padding: clamp(28px, 4.5vw, 56px); }
+.contact-card h2 { color: var(--white); font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.35rem); text-wrap: balance; }
+
+/* On phones, show the contact details before the tips */
+@media (max-width: 759px) {
+  .contact-columns { display: flex; flex-direction: column; }
+  .contact-columns .contact-list { order: -1; }
+}
 .contact-card .eyebrow { color: var(--yellow-300); }
 .contact-card p { color: #d9e4f3; }
-.contact-intro { font-size: 1.12rem; max-width: 560px; }
+.contact-intro { font-size: 1.1rem; max-width: 640px; margin-bottom: 0; }
+
+/* Tips and contact details sit side by side from tablet width up */
+@media (min-width: 760px) {
+  .contact-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    margin-top: 28px;
+  }
+  .contact-columns .checklist-title { margin-top: 0; }
+  .contact-columns .contact-list {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    padding-inline-start: 36px;
+    border-inline-start: 1px solid rgba(255, 255, 255, 0.18);
+  }
+}
 
 .checklist-title { margin: 28px 0 12px; font-weight: 700; color: var(--white); }
 .checklist { display: grid; gap: 10px; }
@@ -748,14 +773,47 @@ html[lang="ar"] .program-card p { line-height: 1.8; }
 
 .contact-list {
   display: grid;
-  gap: 10px;
+  gap: 14px;
+  align-content: start;
   margin-top: 28px;
   padding-top: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
-.contact-list li { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
-.contact-label { min-width: 90px; font-weight: 700; color: var(--yellow-300); }
-.contact-list a { color: var(--white); }
+/* Icon on the side, small label above its value */
+.contact-list li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  column-gap: 14px;
+  align-items: center;
+}
+.contact-list li > .contact-icon { grid-row: span 2; }
+.contact-list li > :nth-child(3) { grid-column: 2; }
+.contact-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--yellow);
+}
+.contact-label { font-size: 0.85rem; font-weight: 700; line-height: 1.3; color: var(--yellow-300); }
+.contact-list a { color: var(--white); font-weight: 600; overflow-wrap: anywhere; }
+/* Keep left-to-right values (phone, email) aligned with the text direction of the page */
+.contact-list li > :nth-child(3) { justify-self: start; }
+.contact-list a:hover { color: var(--yellow-300); }
+
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  color: #c9d6e8;
+  font-weight: 600;
+  text-decoration: none;
+}
+.footer-social svg { padding: 7px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); color: var(--yellow); }
+.footer-social:hover { color: var(--yellow); }
 .contact-pending { margin: 12px 0 0; font-size: 0.95rem; font-style: italic; }
 html[lang="ar"] .contact-pending { font-style: normal; }
 
@@ -769,9 +827,8 @@ html[lang="ar"] .contact-pending { font-style: normal; }
   background: linear-gradient(90deg, rgba(19, 40, 74, 0.35), transparent 35%);
 }
 [dir="rtl"] .contact-media::after { background: linear-gradient(-90deg, rgba(19, 40, 74, 0.35), transparent 35%); }
-@media (max-width: 899px) {
-  .contact-media { order: -1; aspect-ratio: 16 / 10; min-height: 0; }
-  .contact-media::after, [dir="rtl"] .contact-media::after { background: linear-gradient(0deg, rgba(19, 40, 74, 0.4), transparent 40%); }
+@media (max-width: 1099px) {
+  .contact-media { display: none; }
 }
 
 /* ---------- 9. Footer ---------- */
